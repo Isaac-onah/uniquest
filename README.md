@@ -1,4 +1,4 @@
-# **[uniquest]**
+# **uniquest**
 
 ![Flutter](https://img.shields.io/badge/Flutter-Framework-blue)  
 ![Version](https://img.shields.io/badge/version-1.0.0-brightgreen)  
