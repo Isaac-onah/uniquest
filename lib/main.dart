@@ -8,8 +8,8 @@ import 'package:uniquest/screens/authentication/onboarding/splashscreen.dart';
 import 'package:uniquest/utils/theme/theme.dart';
 
 Future<void> main() async{
-  /// Widget binding
-  final WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  // /// Widget binding
+  // final WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
   /// Getx local storage
   await GetStorage.init();
