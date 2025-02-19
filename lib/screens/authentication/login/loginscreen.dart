@@ -40,129 +40,125 @@ class loginScreen extends StatelessWidget {
               style: Theme.of(context).textTheme.titleSmall,
             ),
             SizedBox(height: size.height * 0.05),
-            // for username and password
-            ///email
-            TextFormField(
-              controller: controller.email,
-              validator: (value) => TValidator.validateEmail(value),
-              decoration: InputDecoration(
-                prefixIcon: const Icon(Icons.alternate_email_outlined),
-                labelText: TTexts.email,
-                floatingLabelStyle: Theme.of(context).textTheme.bodyMedium,
+            Form(
+              key: controller.loginFormKey,
+              child: Column(
+                children: [
+                  // for username and password
+                  ///email
+                  TextFormField(
+                    controller: controller.email,
+                    validator: (value) => TValidator.validateEmail(value),
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.alternate_email_outlined),
+                      labelText: TTexts.email,
+                      floatingLabelStyle: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: TSizes.sm,
+                  ),
+
+                  ///password
+                  Obx(
+                    () => TextFormField(
+                      controller: controller.password,
+                      obscureText: controller.hidePassword.value,
+                      validator: (value) =>
+                          TValidator.validateEmptyText('Password', value),
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.password_outlined),
+                        labelText: TTexts.password,
+                        floatingLabelStyle: Theme.of(context).textTheme.bodyMedium,
+                        suffixIcon: IconButton(
+                            onPressed: () => controller.hidePassword.value =
+                                !controller.hidePassword.value,
+                            icon: Icon(
+                              controller.hidePassword.value
+                                  ? Iconsax.eye_slash
+                                  : Iconsax.eye,
+                              color: controller.hidePassword.value
+                                  ? null
+                                  : TColors.primary,
+                            )),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  /// Remember Me and Forgot Password
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ///Remember Me
+                      Row(
+                        children: [
+                          Obx(()=> Checkbox(activeColor:TColors.primary,value: controller.rememberMe.value, onChanged: (value)=> controller.rememberMe.value =!controller.rememberMe.value)),  const Text(TTexts.rememberMe),
+                        ],
+                      ),
+                      /// Forgot Password
+                      TextButton(onPressed: ()=>Get.to(()=> const ForgotPassword()), child: const Text(TTexts.forgetPassword,style: TextStyle(color: TColors.primary),)),
+
+                    ],
+                  ),
+                  SizedBox(height: size.height * 0.04),
+                  Obx(()=>SizedBox(width: double.infinity, child: ElevatedButton(onPressed: (){controller.userLogin();}, child:  controller.isLoggingin.value ? Container(width: 19,height: 19,child: const CircularProgressIndicator(color: TColors.white,strokeWidth: 2,)):Text('Login',)))),
+                ],
               ),
-            ),
-            const SizedBox(
-              height: TSizes.sm,
             ),
 
-            ///password
-            Obx(
-              () => TextFormField(
-                controller: controller.password,
-                obscureText: controller.hidePassword.value,
-                validator: (value) =>
-                    TValidator.validateEmptyText('Password', value),
-                decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.password_outlined),
-                  labelText: TTexts.password,
-                  floatingLabelStyle: Theme.of(context).textTheme.bodyMedium,
-                  suffixIcon: IconButton(
-                      onPressed: () => controller.hidePassword.value =
-                          !controller.hidePassword.value,
-                      icon: Icon(
-                        controller.hidePassword.value
-                            ? Iconsax.eye_slash
-                            : Iconsax.eye,
-                        color: controller.hidePassword.value
-                            ? null
-                            : TColors.primary,
-                      )),
+            SizedBox(height: size.height * 0.02),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  height: 2,
+                  width: size.width * 0.2,
+                  color: Colors.black12,
                 ),
-              ),
+                const Text(
+                  "  Or continue with   ",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: TColors.textColor2,
+                    fontSize: 16,
+                  ),
+                ),
+                Container(
+                  height: 2,
+                  width: size.width * 0.2,
+                  color: Colors.black12,
+                ),
+              ],
             ),
-            const SizedBox(height: 10),
-            /// Remember Me and Forgot Password
+            SizedBox(height: size.height * 0.02),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ///Remember Me
-                Row(
-                  children: [
-                    Obx(()=> Checkbox(activeColor:TColors.primary,value: controller.rememberMe.value, onChanged: (value)=> controller.rememberMe.value =!controller.rememberMe.value)),  const Text(TTexts.rememberMe),
-                  ],
-                ),
-                /// Forgot Password
-                TextButton(onPressed: ()=>Get.to(()=> const ForgotPassword()), child: const Text(TTexts.forgetPassword,style: TextStyle(color: TColors.primary),)),
-
+                Expanded(child: socialIcon("assets/google.png")),
               ],
             ),
-            SizedBox(height: size.height * 0.04),
-            Column(
-              children: [
-                // for sign in button
-                ///Sign In Button
-                SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                        onPressed: () => Get.off(() => const NavigationMenu()),
-                        child: const Text(
-                          TTexts.signIn,
-                        ))),
-                SizedBox(height: size.height * 0.02),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+            SizedBox(height: size.height * 0.07),
+            Text.rich(
+              TextSpan(
+                  text: "Not a member? ",
+                  style: const TextStyle(
+                    color: TColors.textColor2,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                  ),
                   children: [
-                    Container(
-                      height: 2,
-                      width: size.width * 0.2,
-                      color: Colors.black12,
-                    ),
-                    const Text(
-                      "  Or continue with   ",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: TColors.textColor2,
-                        fontSize: 16,
-                      ),
-                    ),
-                    Container(
-                      height: 2,
-                      width: size.width * 0.2,
-                      color: Colors.black12,
-                    ),
-                  ],
-                ),
-                SizedBox(height: size.height * 0.02),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(child: socialIcon("assets/google.png")),
-                  ],
-                ),
-                SizedBox(height: size.height * 0.07),
-                Text.rich(
-                  TextSpan(
-                      text: "Not a member? ",
+                    TextSpan(
+                      text: "Register now",
                       style: const TextStyle(
-                        color: TColors.textColor2,
+                        color: Colors.blue,
                         fontWeight: FontWeight.bold,
-                        fontSize: 15,
                       ),
-                      children: [
-                        TextSpan(
-                          text: "Register now",
-                          style: const TextStyle(
-                            color: Colors.blue,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              Get.to(() => const SignUpScreen());
-                            },
-                        )
-                      ]),
-                ),
-              ],
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          Get.to(() => const SignUpScreen());
+                        },
+                    )
+                  ]),
             ),
           ],
         )),

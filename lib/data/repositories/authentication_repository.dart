@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:uniquest/data/repositories/auth_gate.dart';
+import 'package:uniquest/screens/authentication/onboarding/splashscreen.dart';
 
 class AuthenticationRepository extends GetxController {
   static AuthenticationRepository get instance => Get.find();
@@ -24,42 +26,12 @@ class AuthenticationRepository extends GetxController {
 
   Future<void> screenRedirect() async {
     try {
-
-      String userAccessToken = deviceStorage.read('USERACCESS') ?? '';
-      print(userAccessToken);
-      if (userAccessToken.isNotEmpty) {
-        ///initialize user specific Storage
-        // await MyLocalStorage.init(user.uid);
-
-        /// User document exists, proceed with login, navigate to the main navigation menu
-        ///var result =  Get.offAll(() =>  const ServiceProviderScreen());
-        // if (result != null) {
-        //   result.then((value) => TFullScreenLoader.stopLoading());
-        // }
-      } else {
-        // Get.offAll(() => const LoginScreen());
+          Get.offAll(AuthGate());
+      } catch (e) {
+        debugPrint('Error during screen redirect: $e');
+        Get.offAll(() => const MySplashScreen());
       }
-    } catch (e) {
-      debugPrint('Error during screen redirect: $e');
-      /// Handle the error as needed
-      // Get.offAll(() => const LoginScreen());
-    }
   }
-
-/* ------------------------------ Email and Password sign in ---------------------------------------*/
-
-  /// [EmailAuthentication] - Sign In
-
-
-  /// [EmailAuthentication] - REGISTRATION
-
-  /// [EmailAuthentication] - FORGET PASSWORD
-
-
-
-  /// [EmailVerification] - MAIL VERIFICATION
-
-  /// [EmailVerification] - RE AUTHENTICATE USER
 
 
   /* ---------------------------------------- ./end Federated identity & social sign in ------------------------------------ */
@@ -67,9 +39,5 @@ class AuthenticationRepository extends GetxController {
 
   }
 
-  /// DELETE USER - Remove user Auth and Firestore Account
-  Future<void> deleteAccount() async {
-
-  }
 }
 

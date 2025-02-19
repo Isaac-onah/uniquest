@@ -14,7 +14,7 @@ class TElevatedButtonTheme {
     style: ElevatedButton.styleFrom(
       elevation: 0,
       foregroundColor: TColors.light,
-      backgroundColor: TColors.buttonColor,
+      backgroundColor: TColors.primary,
       disabledForegroundColor: TColors.darkGrey,
       disabledBackgroundColor: TColors.buttonDisabled,
       side: const BorderSide(color: TColors.primary),

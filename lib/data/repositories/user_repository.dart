@@ -3,26 +3,60 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uniquest/data/model/usermodel.dart';
-import 'package:uniquest/data/repositories/authentication_repository.dart';
-import 'package:uniquest/utils/exceptions/firebase_exceptions.dart';
-import 'package:uniquest/utils/exceptions/format_exceptions.dart';
-import 'package:uniquest/utils/exceptions/platform_exceptions.dart';
+import 'package:uniquest/main.dart';
+
 
 class UserRepository extends GetxController{
   static UserRepository get instance=>Get.find();
 
 
 
-  /// Function to save user data to firestore
- Future<void> saveUserRecord(UserModel user) async{
 
-}
+  /// Function to save user data to Supabase
+  Future<void> saveUserRecord(UserModel user) async {
 
-/// Funcion to fetch user details based on user ID
-  Future<void> fetchUserDetails() async{
+    try {
+      final response = await supabase.from('profiles') // Replace 'users' with your actual table name
+          .insert({
+        'id':'user.id',
+        'updated_at':DateTime.now(),
+        'email': user.email,
+        'first_name': user.firstName,
+        'last_name': user.lastName,
+        'profile_picture': user.profilePicture,
+        'phone_number': user.phoneNumber,
+      });
 
-
+      if (response.error != null) {
+        throw Exception('Failed to save user record: ${response.error!.message}');
+      }
+      print('User record saved successfully');
+    } catch (e) {
+      print('Error saving user record: $e');
+    }
   }
+
+
+  /// Funcion to fetch user details based on user ID
+  /// Function to fetch user details based on user ID
+  Future<UserModel> fetchUserDetails(String userId) async {
+
+    try {
+      final response = await supabase.from('profiles').select().eq('email', userId).single();
+
+      // Check if the response contains an error
+      if (response.isEmpty) {
+        throw Exception('Failed to fetch user details');
+      }
+      UserModel userdetails =  UserModel.fromJson(response);
+    return userdetails;
+    } catch (e) {
+      print('Error fetching user details: $e');
+      UserModel userdetails =  UserModel.empty();
+      return userdetails;
+    }
+  }
+
 /// Function to update user data in Firestore
   Future<void> updateUserDetails(UserModel updateUser) async{
 

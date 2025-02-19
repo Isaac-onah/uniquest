@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:uniquest/screens/navigationscreens/profilescreen/profilewidget/profilePicture.dart';
 import 'package:uniquest/screens/navigationscreens/profilescreen/profilewidget/profileheader.dart';
 import 'package:uniquest/utils/constants/color.dart';
@@ -7,42 +8,33 @@ import 'package:uniquest/utils/constants/sizes.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: TSizes.defaultScreenpadding, vertical: 50),
+          padding: const EdgeInsets.symmetric(
+              horizontal: TSizes.defaultScreenpadding, vertical: 50),
           children: [
             // COLUMN THAT WILL CONTAIN THE PROFILE
-            const Column(
-              children: [
-                CircleAvatar(
-                  radius: 50,
-                  backgroundImage: NetworkImage(
-                    "https://images.unsplash.com/photo-1554151228-14d9def656e4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=386&q=80",
-                  ),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  "Rachael Wagner",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text("Isaaconah991@gmail.com"),
-              ],
-            ),
-         Row(
+            userProfileHeader(),
+
+
+            Row(
               children: [
                 /// -- More Details
                 Container(
                   padding: const EdgeInsets.symmetric(
-                      vertical: TSizes.spaceBtwItems/1.2,
-                      horizontal: TSizes.spaceBtwItems),
+                    vertical: TSizes.spaceBtwItems / 1.2,
+                  ),
                   child: Row(
-                    children: [Text('Settings',style: Theme.of(context).textTheme.titleLarge,)],
+                    children: [
+                      Text(
+                        'Settings',
+                        style: Theme.of(context).textTheme.titleLarge,
+                      )
+                    ],
                   ),
                 ),
                 const Text(
@@ -54,18 +46,17 @@ class ProfileScreen extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 10),
-            Row(
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width/5,
-                    height: 7,
-                    margin: const EdgeInsets.only(right:6),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: TColors.primary,
-                    ),
-                  ),]
-            ),
+            Row(children: [
+              Container(
+                width: MediaQuery.of(context).size.width / 5,
+                height: 7,
+                margin: const EdgeInsets.only(right: 6),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: TColors.primary,
+                ),
+              ),
+            ]),
             const SizedBox(height: 10),
             SizedBox(
               height: 180,
@@ -78,25 +69,27 @@ class ProfileScreen extends StatelessWidget {
                     width: 170,
                     child: Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                          border: Border.all(width: 1,color: TColors.grey)
-                      ),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(width: 1, color: TColors.grey)),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           ClipRRect(
-                            borderRadius: const BorderRadius.vertical(top:Radius.circular(11)),
+                            borderRadius: const BorderRadius.vertical(
+                                top: Radius.circular(11)),
                             child: Image.asset(
                               card.icon,
                               height: 80,
-                              fit: BoxFit.cover, // Ensures the image is scaled properly.
+                              fit: BoxFit
+                                  .cover, // Ensures the image is scaled properly.
                             ),
                           ),
                           Expanded(
                             child: Padding(
                               padding: const EdgeInsets.all(10),
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(
                                     child: Text(
@@ -109,17 +102,19 @@ class ProfileScreen extends StatelessWidget {
                                     ),
                                   ),
                                   Container(
-                                    height:30,
+                                    height: 30,
                                     child: ElevatedButton(
                                       onPressed: () {
                                         // Define button action here.
                                       },
                                       style: ElevatedButton.styleFrom(
                                         padding: const EdgeInsets.symmetric(
-                                          horizontal: 10,),
+                                          horizontal: 10,
+                                        ),
                                         elevation: 0,
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(8),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
                                         ),
                                       ),
                                       child: Text(card.buttonText),
@@ -135,10 +130,11 @@ class ProfileScreen extends StatelessWidget {
                   );
                 },
                 separatorBuilder: (context, index) =>
-                const Padding(padding: EdgeInsets.only(right: 10)),
+                    const Padding(padding: EdgeInsets.only(right: 10)),
                 itemCount: profileCompletionCards.length,
               ),
             ),
+
             const SizedBox(height: TSizes.spaceBtwItems),
             const TProfileHeader(),
           ],
@@ -152,6 +148,7 @@ class ProfileCompletionCard {
   final String title;
   final String buttonText;
   final String icon;
+
   ProfileCompletionCard({
     required this.title,
     required this.buttonText,
@@ -180,6 +177,7 @@ List<ProfileCompletionCard> profileCompletionCards = [
 class CustomListTile {
   final IconData icon;
   final String title;
+
   CustomListTile({
     required this.icon,
     required this.title,

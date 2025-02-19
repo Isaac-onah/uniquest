@@ -1,4 +1,3 @@
-
 import 'package:uniquest/utils/formatter/formatter.dart';
 
 ///Model class representing user date
@@ -9,10 +8,6 @@ class UserModel {
   String lastName;
   final String email;
   String phoneNumber;
-  String referral;
-  double wallet;
-  bool userstatus;
-  bool usedreferral;
   String profilePicture;
 
   /// Constructor for UserModel
@@ -22,10 +17,6 @@ class UserModel {
     required this.lastName,
     required this.email,
     required this.phoneNumber,
-    required this.referral,
-    required this.userstatus,
-    required this.usedreferral,
-    required this.wallet,
     required this.profilePicture,
   });
 
@@ -51,16 +42,13 @@ class UserModel {
   }
 
   /// Static functiom to create an empty user model
-  static UserModel empty() => UserModel(
+  static UserModel empty() =>
+      UserModel(
         id: '',
         firstName: '',
         lastName: '',
         email: '',
         phoneNumber: '',
-        referral: '',
-        userstatus: true,
-        usedreferral: false,
-        wallet: 0.0,
         profilePicture: '',
       );
 
@@ -71,18 +59,18 @@ class UserModel {
       'LastName': lastName,
       'Email': email,
       'PhoneNumber': phoneNumber,
-      'Referral': referral,
-      'UserStatus':userstatus,
-      'UsedReferral':usedreferral,
-      'Wallet': wallet,
       'ProfilePicture': profilePicture,
     };
   }
 
   ///factory method to crete a UserModel from a firebase document snapshot
-  factory UserModel.fromSnapshot() {
-
-      return UserModel.empty();
-
+  factory UserModel.fromJson(Map<String, dynamic> response) {
+    return UserModel(
+        id: response['id'].toString()??'',
+        firstName: response['first_name']??'',
+        lastName: response['last_name']??'',
+        email: response['email']??'',
+        phoneNumber: response['phone_number']??'',
+        profilePicture: response['profile_picture']??'');
   }
 }

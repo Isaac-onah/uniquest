@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:uniquest/controllers/user_controller.dart';
-import 'package:uniquest/data/repositories/authentication_repository.dart';
-import 'package:uniquest/screens/navigationscreens/profilescreen/edit_profile.dart';
 import 'package:uniquest/screens/navigationscreens/profilescreen/profilewidget/faq.dart';
 import 'package:uniquest/screens/navigationscreens/profilescreen/profilewidget/getHelp.dart';
 import 'package:uniquest/screens/navigationscreens/profilescreen/profilewidget/legal.dart';
 import 'package:uniquest/screens/navigationscreens/profilescreen/profilewidget/more_list_option.dart';
-import 'package:uniquest/utils/constants/color.dart';
 import 'package:uniquest/utils/constants/sizes.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -53,7 +50,7 @@ class TProfileHeader extends StatelessWidget {
                 TMoreoptionList(
                   iconData: Iconsax.logout,
                   title: 'Sign Out',
-                  onpressed: ()=>AuthenticationRepository.instance.logout(),
+                  onpressed: ()=>controller.authService.signOut(),
                 ),
                 TMoreoptionList(
                   iconData: Iconsax.profile_delete,

@@ -1,3 +1,1 @@
-class APIConstants{
-  static const String tSecretAPIKey="";
-}
+const String GEMINI_API_KEY = "AIzaSyCzxDdwLq_ATNRNNJvbmOkUTI8lFFlge8A";

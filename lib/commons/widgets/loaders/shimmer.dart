@@ -9,7 +9,7 @@ class TShimmerEffect extends StatelessWidget{
     Key? key,
     required this.width,
     required this.height,
-    this.radius = 15,
+    this.radius = 150,
     this.colors,
 }) : super(key: key);
 
@@ -23,8 +23,8 @@ class TShimmerEffect extends StatelessWidget{
       baseColor: dark ? Colors.grey[850]! : Colors.grey[300]!,
         highlightColor: dark ? Colors.grey[700]! : Colors.grey[100]!,
         child: Container(
-          width: width,
-          height: height,
+          width: 150,
+          height: 150,
           decoration: BoxDecoration(
             color: colors ?? (dark ? TColors.darkerGrey : TColors.white),
             borderRadius: BorderRadius.circular(radius)

@@ -52,5 +52,5 @@ class NavigationMenu extends StatelessWidget {
 
 class NavigationController extends GetxController{
   final Rx<int> selectedIndex = 0.obs;
-  final screens = [HomeScreen(),const MyApplicationScreen(), ChatScreen(user: allChats[1].sender,),const ProfileScreen()];
+  final screens = [HomeScreen(),const MyApplicationScreen(), Chatscreen(),const ProfileScreen()];
 }

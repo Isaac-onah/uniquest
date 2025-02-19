@@ -20,17 +20,17 @@ class MySplashScreen extends StatelessWidget {
             Align(
               alignment: Alignment.topCenter,
               child: Container(
-                height: size.height * 0.53,
+                height: size.height * 0.55,
                 width: size.width,
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(40),
                     bottomRight: Radius.circular(40),
                   ),
-                  color: TColors.subprimary,
+                  color: TColors.primary,
                   image: DecorationImage(
                     image: AssetImage(
-                      "assets/image.png",
+                      "assets/onboard.png",
                     ),
                   ),
                 ),
@@ -43,7 +43,7 @@ class MySplashScreen extends StatelessWidget {
               child: Center(
                 child: Column(
                   children: [
-                    Text("Discover your\nDream job Here",
+                    Text("Discover your\nDream school Here",
                         textAlign: TextAlign.center,
                         style: Theme.of(context)
                             .textTheme
@@ -51,7 +51,7 @@ class MySplashScreen extends StatelessWidget {
                             .copyWith(fontSize: 30)),
                     const SizedBox(height: 25),
                     Text(
-                        "Explore all the most exiting jobs roles\nbased on your interest And study major",
+                        "Explore universities with advanced query system designed to suit want you want",
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.titleSmall),
                     SizedBox(height: size.height * 0.07),
@@ -81,6 +81,7 @@ class MySplashScreen extends StatelessWidget {
                           children: [
                             Expanded(
                               child: ElevatedButton(
+
                                 onPressed: () => Get.to(const loginScreen()),
                                 child: Text("Sign In",
                                     style:

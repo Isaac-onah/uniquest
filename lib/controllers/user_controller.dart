@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:uniquest/data/model/usermodel.dart';
+import 'package:uniquest/data/repositories/auth_service.dart';
 import 'package:uniquest/data/repositories/authentication_repository.dart';
 import 'package:uniquest/data/repositories/user_repository.dart';
 import 'package:uniquest/screens/authentication/login/loginscreen.dart';
@@ -24,10 +26,10 @@ class UserController extends GetxController {
   final hidePassword = false.obs;
   final imageUploading = false.obs;
   final verifyEmail = TextEditingController();
-  final amount = TextEditingController();
   final verifyPassword = TextEditingController();
   GlobalKey<FormState> reAuthFormKey = GlobalKey<FormState>();
-  GlobalKey<FormState> fundFormKey = GlobalKey<FormState>();
+  final localStorage = GetStorage();
+  final authService = AuthService();
 
   @override
   void onInit() {
@@ -37,7 +39,17 @@ class UserController extends GetxController {
 
   /// Fetch user record
   Future<void> fetchUserRecord() async {
-
+    try {
+      profileLoading.value = true;
+      String email = localStorage.read('REMEMBER_ME_EMAIL') ?? '';
+      final user = await userRepository.fetchUserDetails(email);
+      userInfo.value = user;
+      print(userInfo.value.fullName);
+    } catch (e) {
+      userInfo.value = UserModel.empty();
+    } finally {
+      profileLoading.value = false;
+    }
   }
 
   /// Save user Record from any Registration Provider

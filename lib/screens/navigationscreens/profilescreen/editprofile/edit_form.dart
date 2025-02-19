@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uniquest/controllers/update_details_controller.dart';
+import 'package:uniquest/screens/navigationscreens/profilescreen/editprofile/avatar.dart';
 import 'package:uniquest/utils/constants/color.dart';
 import 'package:uniquest/utils/constants/sizes.dart';
 import 'package:uniquest/utils/constants/text_strings.dart';
@@ -21,6 +22,7 @@ class TEditForm extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical:  TSizes.spaceBtwSections,),
           child: Column(
             children: [
+
               /// First NAME
               TextFormField(
                 controller: controller.firstName,
@@ -60,7 +62,7 @@ class TEditForm extends StatelessWidget {
 
               const SizedBox(height: TSizes.spaceBtwSections,),
               ///Sign In Button
-              SizedBox(width: double.infinity, child: ElevatedButton(onPressed: ()=>controller.updateUserDetails(), child: const Text(TTexts.updateProfile,))),
+             Obx(()=> SizedBox(width: double.infinity, child: ElevatedButton(onPressed: ()=>controller.updateProfile(), child: Text(controller.isUpdating.value ? 'Saving...' : TTexts.updateProfile,)))),
             ],
           ),
         ));

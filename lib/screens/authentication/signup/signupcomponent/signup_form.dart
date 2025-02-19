@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uniquest/controllers/signup_controller.dart';
 import 'package:uniquest/screens/authentication/signup/signupcomponent/lterms_condition_checkbox.dart';
+import 'package:uniquest/utils/constants/color.dart';
 import 'package:uniquest/utils/constants/sizes.dart';
 import 'package:uniquest/utils/constants/text_strings.dart';
 import 'package:uniquest/utils/helpers/helper_functions.dart';
@@ -140,11 +141,8 @@ class TSignUpForm extends StatelessWidget {
               ),
 
               ///Sign In Button
-              SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                      onPressed: () => controller.signup(),
-                      child: const Text(TTexts.LoginSurTitle)))
+              Obx(()=>SizedBox(width: double.infinity, child: ElevatedButton(onPressed: (){controller.signup();}, child:  controller.isSigningUp.value ? Container(width: 19,height: 19,child: const CircularProgressIndicator(color: TColors.white,strokeWidth: 2,)):const Text(TTexts.LoginSurTitle)))),
+
             ],
           ),
         ));

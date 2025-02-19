@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:uniquest/controllers/user_controller.dart';
 import 'package:uniquest/utils/constants/color.dart';
 
 class HomeHeader extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
+
+    final userDetailscontroller = Get.put(UserController());
+    userDetailscontroller.onInit();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Row(
+      children: [ Row(
           children: [
             CircleAvatar(
               radius: 25,
@@ -20,11 +25,16 @@ class HomeHeader extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Olivia Rodrigo',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                Obx(
+                      () => Row(
+                    children: [
+                      Text(userDetailscontroller.userInfo.value.fullName,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineMedium!
+                              .copyWith(
+                              fontWeight: FontWeight.normal)),
+                    ],
                   ),
                 ),
                 Text(

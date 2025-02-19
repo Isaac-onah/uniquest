@@ -2,13 +2,11 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:uniquest/data/model/usermodel.dart';
-import 'package:uniquest/data/repositories/authentication_repository.dart';
+import 'package:uniquest/data/repositories/auth_service.dart';
 import 'package:uniquest/data/repositories/user_repository.dart';
-import 'package:uniquest/screens/authentication/signup/verify_email.dart';
-import 'package:uniquest/utils/popups/loader.dart';
-import 'package:uniquest/utils/constants/image_strings.dart';
+import 'package:uniquest/screens/authentication/login/loginscreen.dart';
+
 import 'package:uniquest/utils/helpers/network_manager.dart';
-import 'package:uniquest/utils/popups/full_screen_loader.dart';
 import 'package:get/get.dart';
 
 class SignupController extends GetxController {
@@ -17,92 +15,81 @@ class SignupController extends GetxController {
   ///variables
   final hidePassword = true.obs;
   final privacyPolicy = true.obs;
+  final isSigningUp  = false.obs;
   final email = TextEditingController();
   final lastName = TextEditingController();
   final firstName = TextEditingController();
   final phoneNumber = TextEditingController();
   final password = TextEditingController();
   final confirmpassword = TextEditingController();
-  final _random = Random();
-  final _alphanumericChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  GlobalKey<FormState> signupFormKey = GlobalKey<FormState>();
+  final userRepository = Get.put(UserRepository());
 
+
+  GlobalKey<FormState> signupFormKey = GlobalKey<FormState>();
+  ///get auth service
+  final authService = AuthService();
   /// -- SIGNUP
   Future<void> signup() async {
     try {
       ///start loading
-      TFullScreenLoader.openLoadingDialog(
-          'We are processing your information ...', TImages.decorAnimation);
-
+      isSigningUp.value = true;
       ///check internet Connectivity
       final isConnected = await NetworkManager.instance.isConnected();
       if (!isConnected) {
         //remove Loader
-        TFullScreenLoader.stopLoading();
+        isSigningUp.value = false;
         return;
       }
-
       ///Form validation
       if (!signupFormKey.currentState!.validate()) {
         //remove Loader
-        TFullScreenLoader.stopLoading();
+        isSigningUp.value = false;
         return;
       }
-
       ///Privacy Policy Check
       if (!privacyPolicy.value) {
         //remove Loader
-        TFullScreenLoader.stopLoading();
-        TLoaders.warningSnackBar(
-            title: 'Accept Privacy Policy',
-            message:
-                'In order to create account, you must have to read and accept the Privacy Policy & Terms of Use');
+        isSigningUp.value = false;
+        Get.snackbar("Accept Privacy Policy", "In order to create account, you must have to read and accept the Privacy Policy & Terms of Use");
         return;
       }
+      print("user.up");
 
+      print(email.text.trim());
+      print(password.text.trim());
+      final res = await authService.signUpWithEmailPassword(email.text.trim(), password.text.trim());
+      print(res);
+      print("user.id");
+      if(res.user != null ){
+        ///Save Authenticated user data in the firebase firestore
+        final newUser = UserModel(
+            id:'',
+            firstName: firstName.text.trim(),
+            lastName: lastName.text.trim(),
+            email: email.text.trim(),
+            phoneNumber: phoneNumber.text.trim(),
+            profilePicture: '');
 
-
-
-
-      ///Save Authenticated user data in the firebase firestore
-
-
-
-
-      //remove Loader
-      TFullScreenLoader.stopLoading();
-
-      ///show success Message
-      TLoaders.successSnackBar(
-          title: 'Congratulations',
-          message: 'Your account has been created! Verify email to continue');
-
-      ///Move to verify Email screen
-      Get.to(() => VerifyEmailScreen(email: email.text.trim(),));
+        userRepository.saveUserRecord(newUser);
+        isSigningUp.value = false;
+        Get.snackbar("Congratulations", "Your account has been created! Verify email to continue");
+        Get.offAll(loginScreen());
+      }else{
+        isSigningUp.value = false;
+        ///show generic error to user
+        Get.snackbar("Oh Snap", "Failed to create account");
+      }
     } catch (e) {
 //remove Loader
-      TFullScreenLoader.stopLoading();
 
+      isSigningUp.value = false;
+print(e.toString());
       ///show generic error to user
-      TLoaders.errorSnackBar(title: 'Oh Snap', message: e.toString());
+      Get.snackbar("Oh Snap", e.toString());
     }
   }
 
-  Future<String> generateUniqueReferralCode() async {
-    String referralCode = '';
-    bool isUnique = false;
 
-
-    return referralCode;
-  }
-  String _generateRandomCode() {
-    const length = 12;
-    return List.generate(
-        length,
-            (index) =>
-        _alphanumericChars[_random.nextInt(_alphanumericChars.length)])
-        .join();
-  }
 
 
 }
