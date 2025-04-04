@@ -5,7 +5,8 @@ import 'package:uniquest/data/model/university.dart';
 class UniversityController extends GetxController {
   static UniversityController get instance => Get.find();
 
-  final supabase = Supabase.instance.client;
+
+  final SupabaseClient _supabase = Supabase.instance.client;
   var universities = <University>[].obs;
   var isLoading = false.obs;
 
@@ -18,22 +19,35 @@ class UniversityController extends GetxController {
   /// Fetch universities using Supabase RPC function
   Future<void> fetchUniversities() async {
     try {
-      isLoading.value = true;
+      isLoading(true);
 
-      final response = await supabase.rpc('fetch_universities');
+      // Clear previous data
+      universities.clear();
 
-      if (response != null && response is List && response.isNotEmpty) {
-        print('Fetched universities: ${response}');
-        universities.value = List<University>.from(
-            response.map((university) => University.fromJson(university))
+      // Fetch data with proper typing
+      final response = await _supabase
+          .from('universities')
+          .select('*')
+          .order('name', ascending: true);  // Optional: add ordering
+
+      // Check if response is valid
+      if (response != null && response is List) {
+        universities.assignAll(
+          response.map((uni) => University.fromJson(uni)).toList(),
         );
       } else {
-        Get.snackbar("Error", "No universities found");
+        throw Exception('Invalid response format');
       }
+
+    } on PostgrestException catch (e) {
+      Get.snackbar('Database Error', 'Failed to load universities: ${e.message}');
+      print('Supabase error: ${e.message}');
     } catch (e) {
-      Get.snackbar("Error", "An error occurred: ${e.toString()}");
+      Get.snackbar('Error', 'An unexpected error occurred');
+      print('Unexpected error: $e');
     } finally {
-      isLoading.value = false;
+      isLoading(false);
     }
   }
+
 }

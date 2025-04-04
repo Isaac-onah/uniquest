@@ -14,25 +14,31 @@ class UserRepository extends GetxController{
 
   /// Function to save user data to Supabase
   Future<void> saveUserRecord(UserModel user) async {
-
     try {
-      final response = await supabase.from('profiles') // Replace 'users' with your actual table name
-          .insert({
-        'id':'user.id',
-        'updated_at':DateTime.now(),
+      final userData = {
+        'id':  user.id,
         'email': user.email,
         'first_name': user.firstName,
         'last_name': user.lastName,
-        'profile_picture': user.profilePicture,
         'phone_number': user.phoneNumber,
-      });
+        'profile_picture': user.profilePicture,
+        'created_at': DateTime.now().toIso8601String(),
+        'updated_at': DateTime.now().toIso8601String(),
+      };
 
-      if (response.error != null) {
-        throw Exception('Failed to save user record: ${response.error!.message}');
-      }
+      final response = await supabase
+          .from('users')
+          .insert(userData)
+          .select()
+          .single();
+      // if (response.status != 201) {
+      //   throw Exception(response.error?.message ?? 'Failed to save user record');
+      // }
+      print(response);
       print('User record saved successfully');
     } catch (e) {
       print('Error saving user record: $e');
+      rethrow; // Rethrow to handle in the calling function
     }
   }
 
@@ -42,7 +48,7 @@ class UserRepository extends GetxController{
   Future<UserModel> fetchUserDetails(String userId) async {
 
     try {
-      final response = await supabase.from('profiles').select().eq('email', userId).single();
+      final response = await supabase.from('users').select().eq('email', userId).single();
 
       // Check if the response contains an error
       if (response.isEmpty) {

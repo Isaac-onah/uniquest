@@ -109,7 +109,7 @@ class UpdateDetailsController extends GetxController {
         'updated_at': DateTime.now().toIso8601String(),
       };
 
-      await supabase.from('profile').upsert(updates);
+      await supabase.from('users').upsert(updates);
       userController.onInit();
       Get.back();
       Get.snackbar("Success", "Profile updated successfully", snackPosition: SnackPosition.BOTTOM);

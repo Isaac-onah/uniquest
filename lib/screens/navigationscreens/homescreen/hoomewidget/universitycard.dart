@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:uniquest/data/model/university.dart';
 import 'package:uniquest/screens/navigationscreens/homescreen/homepages/universitydetails.dart';
 import 'package:uniquest/utils/constants/color.dart';
@@ -40,7 +41,7 @@ class UniversityCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 12),
-                  Text(university.universityName,
+                  Text(university.name,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -50,18 +51,31 @@ class UniversityCard extends StatelessWidget {
                   Row(
                     children: [
                       Row(
-                        children: List.generate(
-                          5,
-                              (index) => Icon(
-                            Icons.star,
-                            color: index < 4 ? Colors.red : Colors.grey,
-                            size: 20,
+                        children: [
+                          Icon(
+                                Iconsax.global,
+                                color: Colors.red,
+                                size: 20,
+                              ),
+                          const SizedBox(width: 8),
+                          Text('${university.globalRanking.toString()}th',
+                            style: TextStyle(fontSize: 14, color: Colors.grey),
                           ),
-                        ),
+                        ],
                       ),
-                      const SizedBox(width: 8),
-                      Text(university.rating.toString(),
-                        style: TextStyle(fontSize: 14, color: Colors.grey),
+                      const SizedBox(width: 28),
+                      Row(
+                        children: [
+                          Icon(
+                                Iconsax.buildings,
+                                color: Colors.red,
+                                size: 20,
+                              ),
+                          const SizedBox(width: 8),
+                          Text(university.type,
+                            style: TextStyle(fontSize: 14, color: Colors.grey),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -70,8 +84,18 @@ class UniversityCard extends StatelessWidget {
                     children: [
                       Icon(Icons.location_on, color: Colors.grey, size: 18),
                       SizedBox(width: 4),
-                      Text(university.location,
+                      Text('${university.city}, ${university.country}',
                         style: TextStyle(fontSize: 14, color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      Icon(Iconsax.global, color: Colors.grey, size: 18),
+                      SizedBox(width: 4),
+                      Text(university.website,
+                        style: TextStyle(fontSize: 13, color: Colors.grey),
                       ),
                     ],
                   ),
@@ -80,7 +104,7 @@ class UniversityCard extends StatelessWidget {
                     children: [
                       Icon(Icons.email, color: Colors.grey, size: 18),
                       SizedBox(width: 4),
-                      Text(university.email,
+                      Text(university.shortName,
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.blue,
@@ -104,18 +128,7 @@ class UniversityCard extends StatelessWidget {
                       Row(
                         children: [
                           Expanded(
-                            child: Text(
-                              'Regular: Jan 15, 2024',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.grey[700],
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Text(
-                              'Early: Nov 1, 2023',
+                            child: Text(university.admissionDeadline.toString(),
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.grey[700],

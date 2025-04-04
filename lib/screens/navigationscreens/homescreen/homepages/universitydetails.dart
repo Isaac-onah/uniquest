@@ -10,7 +10,7 @@ class UniversityDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var departments = university.departments ?? [];
+    // var departments = university.departments ?? [];
     return Scaffold(
       appBar: AppBar(
         title: const Text('University Details'),
@@ -39,7 +39,7 @@ class UniversityDetailPage extends StatelessWidget {
               ),
               SizedBox(height: 16),
               Text(
-                university.universityName,
+                university.name,
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -64,7 +64,7 @@ class UniversityDetailPage extends StatelessWidget {
               ),
               SizedBox(height: 16),
               Text(
-                'Contact: ${university.email}',
+                'Contact: ${university.shortName}',
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.blue,
@@ -73,7 +73,7 @@ class UniversityDetailPage extends StatelessWidget {
               ),
               SizedBox(height: 16),
               Text(
-                university.history,
+                university.description,
                 style: TextStyle(fontSize: 16, color: Colors.black87),
               ),
               SizedBox(height: 16),
@@ -84,7 +84,7 @@ class UniversityDetailPage extends StatelessWidget {
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                   Text(
-                    '\$${university.admissionFee}',
+                    '\$${university.country}',
                     style: TextStyle(fontSize: 16, color: Colors.black87),
                   ),
                 ],
@@ -92,46 +92,46 @@ class UniversityDetailPage extends StatelessWidget {
               SizedBox(height: 32),
 
               // Department and Course List
-              ListView.builder(
-                itemCount: departments.length,
-                shrinkWrap: true, // Makes the ListView take only as much space as needed
-                physics: NeverScrollableScrollPhysics(), // Disables scrolling in the ListView
-                itemBuilder: (context, departmentIndex) {
-                  var department = departments[departmentIndex];
-                  var courses = department.courses ?? [];
-                  return Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                    decoration: BoxDecoration(
-                      border: Border.all(width: 1.5),
-                      borderRadius: BorderRadius.circular(TSizes.cardRadiusSm),
-                    ),
-                    child: ExpansionTile(
-                      tilePadding: const EdgeInsets.symmetric(horizontal: TSizes.sm),
-                      childrenPadding: const EdgeInsets.symmetric(horizontal: TSizes.sm),
-                      backgroundColor: Colors.transparent,
-                      iconColor: TColors.primary,
-                      shape: const Border(),
-                      title: Text(department.departmentName),
-                      children: [
-                        ListView.builder(
-                          itemCount: courses.length,
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(), // Prevents inner ListView from scrolling
-                          itemBuilder: (context, courseIndex) {
-                            final course = courses[courseIndex];
-                            return ListTile(
-                              title: Text(course.courseName),
-                              subtitle: Text(
-                                'Mode: ${course.mode} | Duration: ${course.duration} years',
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
+              // ListView.builder(
+              //   itemCount: departments.length,
+              //   shrinkWrap: true, // Makes the ListView take only as much space as needed
+              //   physics: NeverScrollableScrollPhysics(), // Disables scrolling in the ListView
+              //   itemBuilder: (context, departmentIndex) {
+              //     var department = departments[departmentIndex];
+              //     var courses = department.courses ?? [];
+              //     return Container(
+              //       margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+              //       decoration: BoxDecoration(
+              //         border: Border.all(width: 1.5),
+              //         borderRadius: BorderRadius.circular(TSizes.cardRadiusSm),
+              //       ),
+              //       child: ExpansionTile(
+              //         tilePadding: const EdgeInsets.symmetric(horizontal: TSizes.sm),
+              //         childrenPadding: const EdgeInsets.symmetric(horizontal: TSizes.sm),
+              //         backgroundColor: Colors.transparent,
+              //         iconColor: TColors.primary,
+              //         shape: const Border(),
+              //         title: Text(department.departmentName),
+              //         children: [
+              //           ListView.builder(
+              //             itemCount: courses.length,
+              //             shrinkWrap: true,
+              //             physics: NeverScrollableScrollPhysics(), // Prevents inner ListView from scrolling
+              //             itemBuilder: (context, courseIndex) {
+              //               final course = courses[courseIndex];
+              //               return ListTile(
+              //                 title: Text(course.courseName),
+              //                 subtitle: Text(
+              //                   'Mode: ${course.mode} | Duration: ${course.duration} years',
+              //                 ),
+              //               );
+              //             },
+              //           ),
+              //         ],
+              //       ),
+              //     );
+              //   },
+              // ),
             ],
           ),
         ),

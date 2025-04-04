@@ -31,61 +31,58 @@ class SignupController extends GetxController {
   /// -- SIGNUP
   Future<void> signup() async {
     try {
-      ///start loading
       isSigningUp.value = true;
-      ///check internet Connectivity
+
+      // Check internet connectivity
       final isConnected = await NetworkManager.instance.isConnected();
       if (!isConnected) {
-        //remove Loader
         isSigningUp.value = false;
+        Get.snackbar("No Internet", "Please check your internet connection");
         return;
       }
-      ///Form validation
+
+      // Form validation
       if (!signupFormKey.currentState!.validate()) {
-        //remove Loader
         isSigningUp.value = false;
         return;
       }
-      ///Privacy Policy Check
+
+      // Privacy Policy Check
       if (!privacyPolicy.value) {
-        //remove Loader
         isSigningUp.value = false;
-        Get.snackbar("Accept Privacy Policy", "In order to create account, you must have to read and accept the Privacy Policy & Terms of Use");
+        Get.snackbar("Policy Required", "Please accept the privacy policy");
         return;
       }
-      print("user.up");
 
-      print(email.text.trim());
-      print(password.text.trim());
-      final res = await authService.signUpWithEmailPassword(email.text.trim(), password.text.trim());
-      print(res);
-      print("user.id");
-      if(res.user != null ){
-        ///Save Authenticated user data in the firebase firestore
-        final newUser = UserModel(
-            id:'',
-            firstName: firstName.text.trim(),
-            lastName: lastName.text.trim(),
-            email: email.text.trim(),
-            phoneNumber: phoneNumber.text.trim(),
-            profilePicture: '');
+      // Create user in Auth
+      final authResponse = await authService.signUpWithEmailPassword(
+          email.text.trim(),
+          password.text.trim()
+      );
 
-        userRepository.saveUserRecord(newUser);
-        isSigningUp.value = false;
-        Get.snackbar("Congratulations", "Your account has been created! Verify email to continue");
-        Get.offAll(loginScreen());
-      }else{
-        isSigningUp.value = false;
-        ///show generic error to user
-        Get.snackbar("Oh Snap", "Failed to create account");
+      if (authResponse.user == null) {
+        throw Exception("User creation failed");
       }
-    } catch (e) {
-//remove Loader
+      // Save user data
+      final newUser = UserModel(
+        id: authResponse.user!.id, // Use the auth UID
+        firstName: firstName.text.trim(),
+        lastName: lastName.text.trim(),
+        email: email.text.trim(),
+        phoneNumber: phoneNumber.text.trim(),
+        profilePicture: '',
+      );
+
+      await userRepository.saveUserRecord(newUser);
 
       isSigningUp.value = false;
-print(e.toString());
-      ///show generic error to user
-      Get.snackbar("Oh Snap", e.toString());
+      Get.snackbar("Success", "Account created! Please verify your email");
+      Get.offAll(() => loginScreen());
+
+    } catch (e) {
+      isSigningUp.value = false;
+      Get.snackbar("Error", e.toString());
+      print("Signup error: ${e.toString()}");
     }
   }
 

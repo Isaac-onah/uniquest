@@ -8,15 +8,15 @@ plugins {
 android {
     namespace = "io.isaaconah.uniquest"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+//    ndkVersion = flutter.ndkVersion
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     kotlinOptions {
-        jvmTarget = '21'
+        jvmTarget = JavaVersion.VERSION_1_8
     }
 
     defaultConfig {
