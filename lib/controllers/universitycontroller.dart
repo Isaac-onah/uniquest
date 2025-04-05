@@ -25,10 +25,24 @@ class UniversityController extends GetxController {
       universities.clear();
 
       // Fetch data with proper typing
-      final response = await _supabase
-          .from('universities')
-          .select('*')
-          .order('name', ascending: true);  // Optional: add ordering
+      final response = await _supabase.from('universities').select('''*,campuses(*,accommodations(*)),contacts(*)''').order('name', ascending: true); // Fetch data with proper typing
+  //     final response = await _supabase
+  //         .from('universities')
+  //         .select('''
+  //   *,
+  //   campuses(*,
+  //   accommodations(*)),
+  //   faculties(*,
+  //     departments(*,
+  //       programs(*,
+  //         admission_requirements(*)
+  //       )
+  //     )
+  //   ),
+  //   scholarships(*),
+  //   contacts(*)
+  // ''')
+  //         .order('name', ascending: true);
 
       // Check if response is valid
       if (response != null && response is List) {

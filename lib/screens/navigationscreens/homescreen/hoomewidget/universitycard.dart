@@ -53,7 +53,7 @@ class UniversityCard extends StatelessWidget {
                       Row(
                         children: [
                           Icon(
-                                Iconsax.global,
+                                Iconsax.cup,
                                 color: Colors.red,
                                 size: 20,
                               ),
