@@ -119,7 +119,7 @@ class UniversityDetailPage extends StatelessWidget {
                             Row(
                               children: [
                                 Icon(Iconsax.call,
-                                  color: Colors.red,),
+                                  color: Colors.red, size: 20,),
                                 SizedBox(width: 5),
                                 Text(contact.phone)
                               ],
@@ -128,7 +128,7 @@ class UniversityDetailPage extends StatelessWidget {
                             Row(
                               children: [
                                 Icon(Iconsax.message,
-                                  color: Colors.red,),
+                                  color: Colors.red, size: 20,),
                                 SizedBox(width: 5),
                                 Text(contact.email)
                               ],
@@ -202,16 +202,38 @@ class UniversityDetailPage extends StatelessWidget {
               // Faculties
               if (university.faculties.isNotEmpty) ...[
                 _buildSectionTitle('Faculties & Programs'),
-                ...university.faculties.expand((faculty) => [
-                  _buildFacultyCard(faculty),
-                  ...faculty.departments.expand((dept) =>
-                      dept.programs.map((program) => _buildProgramCard(program))
-                  ),
-                ]).toList(),
+                ...university.faculties.map((faculty) {
+                  return Container(
+                    margin: const EdgeInsets.symmetric(vertical: 8),
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: TColors.darkGrey),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildFacultyCard(faculty),
+                        ...faculty.departments.map(
+                              (dept) => Padding(
+                            padding: const EdgeInsets.only(left: 8, top: 4),
+                            child: Row(
+                              children: [
+                                const Icon(Icons.circle, size: 6),
+                                const SizedBox(width: 6),
+                                Text(dept.name),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }).toList(),
                 const SizedBox(height: 20),
               ],
 
-
+              // dept.programs.map((program) => _buildProgramCard(program))
             ],
           ),
         ),
@@ -227,39 +249,38 @@ class UniversityDetailPage extends StatelessWidget {
       ),
     );
   }
-  Widget _buildContactCard(Contact contact) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(contact.office, style: const TextStyle(fontWeight: FontWeight.bold)),
-          ],
-        ),
-      ),
-    );
-  }
   Widget _buildFacultyCard(Faculty faculty) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(faculty.name, style: const TextStyle(fontWeight: FontWeight.bold)),
-            if (faculty.departments.isNotEmpty) ...[
-              const SizedBox(height: 8),
-              const Text('Departments:', style: TextStyle(fontStyle: FontStyle.italic)),
-              ...faculty.departments.map((dept) =>
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Text('- ${dept.name}'),
-                  )).toList(),
-            ],
-          ],
+    return Row(
+      children: [
+        Expanded(
+          child: Container(
+            margin: EdgeInsets.only(bottom: 10),
+                padding: EdgeInsets.symmetric(horizontal: 5),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.red),
+                    borderRadius: BorderRadius.all(Radius.circular(10))
+                ),
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(faculty.name, style: const TextStyle(fontWeight: FontWeight.bold)),
+                  // if (faculty.departments.isNotEmpty) ...[
+                  //   const SizedBox(height: 8),
+                  //   const Text('Departments:', style: TextStyle(fontStyle: FontStyle.italic)),
+                  //   ...faculty.departments.map((dept) =>
+                  //       Padding(
+                  //         padding: const EdgeInsets.only(left: 8.0),
+                  //         child: Text('- ${dept.name}'),
+                  //       )).toList(),
+                  // ],
+                ],
+              ),
+            ),
+          ),
         ),
-      ),
+      ],
     );
   }
   Widget _buildProgramCard(Program program) {

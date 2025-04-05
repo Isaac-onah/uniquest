@@ -91,7 +91,6 @@ class Faculty {
   final String name;
   final String dean;
   final String website;
-  final DateTime createdAt;
   final List<Department> departments;
 
   Faculty({
@@ -100,7 +99,6 @@ class Faculty {
     required this.name,
     required this.dean,
     required this.website,
-    required this.createdAt,
     required this.departments,
   });
 
@@ -112,7 +110,6 @@ class Faculty {
       name: json['name'],
       dean: json['dean'],
       website: json['website'],
-      createdAt: DateTime.parse(json['created_at']),
       departments: json['departments'] != null
           ? (json['departments'] as List)
           .map((i) => Department.fromJson(i))
