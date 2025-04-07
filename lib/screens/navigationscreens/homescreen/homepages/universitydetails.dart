@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:uniquest/data/model/university.dart';
-import 'package:uniquest/utils/constants/color.dart';
 import 'package:uniquest/utils/constants/sizes.dart';
 
 class UniversityDetailPage extends StatelessWidget {
@@ -203,37 +202,12 @@ class UniversityDetailPage extends StatelessWidget {
               if (university.faculties.isNotEmpty) ...[
                 _buildSectionTitle('Faculties & Programs'),
                 ...university.faculties.map((faculty) {
-                  return Container(
-                    margin: const EdgeInsets.symmetric(vertical: 8),
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: TColors.darkGrey),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildFacultyCard(faculty),
-                        ...faculty.departments.map(
-                              (dept) => Padding(
-                            padding: const EdgeInsets.only(left: 8, top: 4),
-                            child: Row(
-                              children: [
-                                const Icon(Icons.circle, size: 6),
-                                const SizedBox(width: 6),
-                                Text(dept.name),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
+                  return _buildFacultyCard(faculty);
                 }).toList(),
                 const SizedBox(height: 20),
               ],
 
-              // dept.programs.map((program) => _buildProgramCard(program))
+
             ],
           ),
         ),
@@ -249,32 +223,55 @@ class UniversityDetailPage extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildFacultyCard(Faculty faculty) {
     return Row(
       children: [
         Expanded(
           child: Container(
             margin: EdgeInsets.only(bottom: 10),
-                padding: EdgeInsets.symmetric(horizontal: 5),
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.red),
-                    borderRadius: BorderRadius.all(Radius.circular(10))
-                ),
+            padding: EdgeInsets.symmetric(horizontal: 5),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.red),
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+            ),
             child: Padding(
               padding: const EdgeInsets.all(12.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // Faculty Info
                   Text(faculty.name, style: const TextStyle(fontWeight: FontWeight.bold)),
-                  // if (faculty.departments.isNotEmpty) ...[
-                  //   const SizedBox(height: 8),
-                  //   const Text('Departments:', style: TextStyle(fontStyle: FontStyle.italic)),
-                  //   ...faculty.departments.map((dept) =>
-                  //       Padding(
-                  //         padding: const EdgeInsets.only(left: 8.0),
-                  //         child: Text('- ${dept.name}'),
-                  //       )).toList(),
-                  // ],
+                  Text(faculty.dean, style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 13)),
+
+                  // Departments and Programs
+                  if (faculty.departments.isNotEmpty) ...[
+                    const SizedBox(height: 8),
+                    const Text('Departments:', style: TextStyle(fontStyle: FontStyle.italic)),
+
+                    ...faculty.departments.map((dept) => Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0, top: 8),
+                          child: Text('- ${dept.name}'),
+                        ),
+                        const SizedBox(height: 8),
+                        SizedBox(
+                          height: 120, // Adjust based on your _buildProgramCard height
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: dept.programs
+                                .map((program) => Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: _buildProgramCard(program),
+                            ))
+                                .toList(),
+                          ),
+                        ),
+                      ],
+                    )).toList(),
+                  ],
                 ],
               ),
             ),
@@ -283,6 +280,8 @@ class UniversityDetailPage extends StatelessWidget {
       ],
     );
   }
+
+
   Widget _buildProgramCard(Program program) {
     return Padding(
       padding: const EdgeInsets.only(left: 16.0, top: 8.0),
@@ -297,11 +296,7 @@ class UniversityDetailPage extends StatelessWidget {
               if (program.admissionRequirements.isNotEmpty) ...[
                 const SizedBox(height: 8),
                 const Text('Admission Requirements:', style: TextStyle(fontStyle: FontStyle.italic)),
-                ...program.admissionRequirements.map((req) =>
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: Text('- ${req.description}'),
-                    )).toList(),
+                  Text('- ${program.admissionRequirements}'),
               ],
             ],
           ),

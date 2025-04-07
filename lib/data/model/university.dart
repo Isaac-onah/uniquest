@@ -173,14 +173,13 @@ class Program {
   final double applicationFee;
   final bool scholarshipsAvailable;
   final String startDates;
-  final List<AdmissionRequirements> admissionRequirements;
-  final String prerequisiteSubjects;
+  final String admissionRequirements;
+  // final List<dynamic>  prerequisiteSubjects;
   final int intakeCapacity;
   final String description;
   final String careerOpportunities;
   final String website;
   final String accreditation;
-  final DateTime createdAt;
 
   Program({
     required this.id,
@@ -199,13 +198,12 @@ class Program {
     required this.scholarshipsAvailable,
     required this.startDates,
     required this.admissionRequirements,
-    required this.prerequisiteSubjects,
+    // required this.prerequisiteSubjects,
     required this.intakeCapacity,
     required this.description,
     required this.careerOpportunities,
     required this.website,
     required this.accreditation,
-    required this.createdAt,
   });
 
   factory Program.fromJson(Map<String, dynamic> json) {
@@ -226,18 +224,17 @@ class Program {
       applicationFee: json['application_fee'].toDouble(),
       scholarshipsAvailable: json['scholarships_available'],
       startDates: json['start_dates'],
-      admissionRequirements: json['admission_requirements'] != null
-          ? (json['admission_requirements'] as List)
-          .map((i) => AdmissionRequirements.fromJson(i))
-          .toList()
-          : [],
-      prerequisiteSubjects: json['prerequisite_subjects'],
+      admissionRequirements: json['admission_requirements'] ?? '',
+      // prerequisiteSubjects: json['prerequisite_subjects'] != null
+      //     ? (json['prerequisite_subjects'] as List)
+      //     .map((i) => AdmissionRequirements.fromJson(i))
+      //     .toList()
+      //     : [],
       intakeCapacity: json['intake_capacity'],
       description: json['description'],
       careerOpportunities: json['career_opportunities'],
       website: json['website'],
       accreditation: json['accreditation'],
-      createdAt: DateTime.parse(json['created_at']),
     );
   }
 }
